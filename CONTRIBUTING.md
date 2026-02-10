@@ -17,8 +17,8 @@ git pull
 git checkout -b feature/feaature-name
 ```
 
-### 2) Work on the task :D
-you can do it !
+### 2) Work on the task
+you can do it ! :D
 
 ### 3) Push the branch
 ```

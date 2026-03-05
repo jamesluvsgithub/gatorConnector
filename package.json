@@ -1,0 +1,24 @@
+{
+  "name": "0_gatorconnector",
+  "version": "1.0.0",
+  "description": "gatorConnect is an app that will help people at UF and Santa Fe CC connect with one another. Students and faculty can use this app to search for  friendships, mentorships, or both! People can also choose to be either mentors or mentees.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jamesluvsgithub/gatorConnector.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/jamesluvsgithub/gatorConnector/issues"
+  },
+  "homepage": "https://github.com/jamesluvsgithub/gatorConnector#readme",
+  "dependencies": {
+    "dotenv": "^17.3.1"
+  }
+}

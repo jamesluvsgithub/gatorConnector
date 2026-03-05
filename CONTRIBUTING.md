@@ -26,4 +26,4 @@ git push origin feature/feature-name
 ```
 
 ### 4) Open a pull request into dev
-It's on GitHub
+This part is done on the GitHub website

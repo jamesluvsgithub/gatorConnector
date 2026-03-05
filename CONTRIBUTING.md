@@ -10,7 +10,7 @@ The workflow will look like:
 
 ## Contributing
 
-### 1) Pull from dev and create a separate branch
+### 1) Pull from dev (to ensure everything is up to date) and create a separate branch
 ```
 git checkout dev
 git pull

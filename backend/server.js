@@ -1,26 +1,23 @@
-require('dotenv').config()
+const express = require("express");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const cors = require("cors");
 
-const express = require('express')
-const mongoose = require('mongoose')
+dotenv.config();
+const app = express();
+app.use(cors({
+  origin: "http://localhost:5177",
+  credentials: true
+}));
 
-const app = express()
+app.use(express.json());
+
+app.use("/api/users", require("./src/routes/userRoutes"));
 
 mongoose.connect(process.env.MONGO_DB_URI)
-    .then(() => console.log("Connected to MongoDB!"))
-    .catch(err => console.error(err))
+  .then(() => console.log("Connected to MongoDB"))
+  .catch(err => console.log(err));
 
-app.get('/', (req, res) => {
-    res.json({msg: 'Welcome to gatorConnectors'})
-})
-
-mongoose.connect(process.env.MONGO)
-    .then(() => {
-        app.listen(process.env.PORT, () => {
-            console.log('listening on port')
-        })
-    })
-    .catch((error) => {
-        console.log(error)
-    })
-
-
+app.listen(4000, () => {
+  console.log("listening on port 4000");
+});

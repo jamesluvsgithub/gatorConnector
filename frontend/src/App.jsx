@@ -4,9 +4,17 @@ import Login from "./components/Login";
 import GoalWindow from "./components/GoalWindow";
 
 function App() {
-  const showGoal = true;
+  // return <GoalWindow />;
+  // return <ChatWindow />;
+  return <Login />;
+  // Will display the goal window:
+  // const showGoal = true;
+  // return showGoal ? <GoalWindow /> : <Login />;
 
-  return showGoal ? <GoalWindow /> : <Login />;
+  //Will display the chat window: 
+  // const showChat = true;
+  // return showChat ? <ChatWindow /> : <GoalWindow />;
+
 }
 
 export default App;

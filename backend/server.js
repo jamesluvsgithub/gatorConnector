@@ -8,6 +8,7 @@ const app = express()
 app.use(express.json());
 
 const userRoutes = require('./src/routes/userRoutes');
+const goalRoutes = require('./src/routes/goalRoutes')
 app.use('/api/users', userRoutes);
 app.use('/api/goals', goalRoutes);
 

@@ -9,7 +9,6 @@ function ChatWindow() {
   const [isSending, setIsSending] = useState(false);
 
   const bottomRef = useRef(null);
-  const API_URL = "http://localhost:5000/messages";
 
   const scrollDown = () => {
     if (bottomRef.current) {
@@ -29,7 +28,7 @@ function ChatWindow() {
     setLoadError("");
 
     try {
-      const response = await fetch(API_URL);
+      const response = await fetch(import.meta.env.API_URL);
 
       if (!response.ok) {
         throw new Error("Could not load messages");

@@ -9,6 +9,7 @@ app.use(express.json());
 
 const userRoutes = require('./src/routes/userRoutes');
 app.use('/api/users', userRoutes);
+app.use('/api/goals', goalRoutes);
 
 app.get('/', (req, res) => {
     res.json({msg: 'Welcome to gatorConnectors'})

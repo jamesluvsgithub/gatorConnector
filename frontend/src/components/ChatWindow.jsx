@@ -28,7 +28,7 @@ function ChatWindow() {
     setLoadError("");
 
     try {
-      const response = await fetch(process.env.API_URL);
+      const response = await fetch(import.meta.env.API_URL);
 
       if (!response.ok) {
         throw new Error("Could not load messages");

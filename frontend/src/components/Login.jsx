@@ -5,18 +5,40 @@ function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!username || !password) {
       setError("Please fill in all fields");
       return;
     }
 
-    if (username === "admin" && password === "123") {
-      setError("");
-      setLoggedIn(true);
-    } else {
-      setError("Invalid username or password");
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch("http://localhost:4000/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setLoggedIn(true);
+      } else {
+        setError(data.message || "Invalid username or password");
+      }
+    } catch (err) {
+      setError("Server error. Please try again later.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -58,9 +80,9 @@ function Login() {
 
         {error && <p className="error">{error}</p>}
 
-        <button onClick={handleLogin}>Login</button>
-
-        <p className="hint">Demo: admin / 123</p>
+        <button onClick={handleLogin} disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
+        </button>
       </div>
     </div>
   );

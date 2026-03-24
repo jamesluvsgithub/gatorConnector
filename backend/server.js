@@ -1,29 +1,23 @@
-require('dotenv').config()
+const express = require("express");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const cors = require("cors");
 
-const express = require('express')
-const mongoose = require('mongoose')
-
-const app = express()
+dotenv.config();
+const app = express();
+app.use(cors({
+  origin: "http://localhost:5177",
+  credentials: true
+}));
 
 app.use(express.json());
 
-const userRoutes = require('./src/routes/userRoutes');
-const goalRoutes = require('./src/routes/goalRoutes')
-app.use('/api/users', userRoutes);
-app.use('/api/goals', goalRoutes);
-
-app.get('/', (req, res) => {
-    res.json({msg: 'Welcome to gatorConnectors'})
-})
+app.use("/api/users", require("./src/routes/userRoutes"));
 
 mongoose.connect(process.env.MONGO_DB_URI)
-    .then(() => {
-        app.listen(process.env.PORT, () => {
-            console.log('listening on port 4000')
-        })
-    })
-    .catch((error) => {
-        console.log(error)
-    })
+  .then(() => console.log("Connected to MongoDB"))
+  .catch(err => console.log(err));
 
-
+app.listen(4000, () => {
+  console.log("listening on port 4000");
+});

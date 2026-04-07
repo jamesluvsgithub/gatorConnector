@@ -5,17 +5,48 @@ function GoalWindow() {
   const [description, setDescription] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!title.trim()) {
       setError("Goal title is required.");
       setSuccess("");
       return;
     }
 
-    setError("");
-    setSuccess("Goal saved successfully.");
-    console.log("Saved goal:", { title, description });
+    try {
+      setLoading(true);
+      setError("");
+      setSuccess("");
+      const API_URL = import.meta.env.VITE_API_URL;
+      const response = await fetch(`${API_URL}/api/goals`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: title,
+        description,
+      }),
+    });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message || "Failed to save goal.");
+        return;
+      }
+
+      setSuccess("Goal saved successfully.");
+      setTitle("");
+      setDescription("");
+      console.log("Saved goal:", data);
+    } catch (err) {
+      setError("Server error. Please try again.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCancel = () => {
@@ -55,10 +86,12 @@ function GoalWindow() {
         {success && <p className="success">{success}</p>}
 
         <div className="button-row">
-          <button className="secondary" onClick={handleCancel}>
+          <button className="secondary" onClick={handleCancel} disabled={loading}>
             Cancel
           </button>
-          <button onClick={handleSave}>Save</button>
+          <button onClick={handleSave} disabled={loading}>
+            {loading ? "Saving..." : "Save"}
+          </button>
         </div>
       </div>
     </div>

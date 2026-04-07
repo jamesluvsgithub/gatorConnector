@@ -16,10 +16,14 @@ app.use(express.json());
 const userRoutes = require("./src/routes/userRoutes");
 const goalRoutes = require("./src/routes/goalRoutes");
 const facultyRoutes = require("./src/routes/facultyRoutes");
+const chatRoutes = require("./src/routes/chatRoutes");
+const messageRoutes = require("./src/routes/messageRoutes");
 
 app.use("/api/users", userRoutes);
 app.use("/api/goals", goalRoutes);
 app.use("/api/goals", facultyRoutes);
+app.use("/api/goals", chatRoutes);
+app.use("/api/goals", messageRoutes);
 
 mongoose.connect(process.env.MONGO_DB_URI)
   .then(() => console.log("Connected to MongoDB"))

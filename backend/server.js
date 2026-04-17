@@ -18,14 +18,14 @@ const goalRoutes = require("./src/routes/goalRoutes");
 const facultyRoutes = require("./src/routes/facultyRoutes");
 const chatRoutes = require("./src/routes/chatRoutes");
 const messageRoutes = require("./src/routes/messageRoutes");
-const matchingRoutes = require("./src/routes/matchingRoutes");
+const matchRouter = require("./src/routes/matchRouter");
 
 app.use("/api/users", userRoutes);
 app.use("/api/goals", goalRoutes);
 app.use("/api/faculty", facultyRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/messages", messageRoutes);
-app.use("/api/matching", require("./src/routes/matchingRoutes"));
+app.use("/api/matching", matchRouter);
 
 mongoose.connect(process.env.MONGO_DB_URI)
   .then(() => console.log("Connected to MongoDB"))

@@ -13,6 +13,9 @@ exports.createUser = async (req, res) => {
 
 // READ
 exports.getUser = async (req, res) => {
+    if (req.user.id !== req.params.id) {
+        return res.status(403).json({ error: "Forbidden" });
+    }
     try {
         const user = await User.findById(req.params.id);
 
@@ -29,6 +32,9 @@ exports.getUser = async (req, res) => {
 
 // UPDATE
 exports.updateUser = async (req, res) => {
+    if (req.user.id !== req.params.id) {
+        return res.status(403).json({ error: "Forbidden" });
+    }
     try{
         const user = await User.findByIdAndUpdate(req.params.id, req.body);
 
@@ -46,6 +52,9 @@ exports.updateUser = async (req, res) => {
 
 // DELETE
 exports.deleteUser = async (req, res) => {
+    if (req.user.id !== req.params.id) {
+        return res.status(403).json({ error: "Forbidden" });
+    }
     try{
         const user = await User.findByIdAndDelete(req.params.id);
 

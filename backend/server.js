@@ -1,3 +1,4 @@
+console.log("RUNNING THIS SERVER FILE");
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
@@ -21,9 +22,9 @@ const messageRoutes = require("./src/routes/messageRoutes");
 
 app.use("/api/users", userRoutes);
 app.use("/api/goals", goalRoutes);
-app.use("/api/goals", facultyRoutes);
-app.use("/api/goals", chatRoutes);
-app.use("/api/goals", messageRoutes);
+app.use("/api/faculty", facultyRoutes);
+app.use("/api/chat", chatRoutes);
+app.use("/api/messages", messageRoutes);
 
 mongoose.connect(process.env.MONGO_DB_URI)
   .then(() => console.log("Connected to MongoDB"))

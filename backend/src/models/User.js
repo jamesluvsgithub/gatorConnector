@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+const { use } = require("react");
 
 const UserSchema = new mongoose.Schema(
 {
@@ -17,6 +19,13 @@ const UserSchema = new mongoose.Schema(
         type: String,
         required: true,
         minLength: 6
+    },
+
+    role:{
+        type: String,
+        enum: ["student", "faculty"],
+        default: "student",
+        required: true
     },
 
     email: {
@@ -80,5 +89,9 @@ const UserSchema = new mongoose.Schema(
 },
 { timestamps: true }
 );
+
+UserSchema.pre("save", async function(){
+    this.password = await bcrypt.hash(this.password, 12);
+});
 
 module.exports = mongoose.model("User", UserSchema);

@@ -21,13 +21,6 @@ const UserSchema = new mongoose.Schema(
         minLength: 6
     },
 
-    role:{
-        type: String,
-        enum: ["student", "faculty"],
-        default: "student",
-        required: true
-    },
-
     email: {
         type: String,
         required: true,

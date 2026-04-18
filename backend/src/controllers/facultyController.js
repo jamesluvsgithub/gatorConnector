@@ -1,4 +1,5 @@
 const Faculty = require("../models/Faculty");
+const User = require("../models/User");
 
 // CREATE
 exports.createFaculty = async (req, res) => {
@@ -60,23 +61,37 @@ exports.deleteFaculty = async (req, res) => {
     }
 };
 
-// LOGGING USER IN
 exports.loginFaculty = async (req, res) => {
-    // Username and password comes from user input
-    const {username, password} = req.body
-    try{
-        // Checking if the username exists
-        const user = await Faculty.findOne({username})
-        if(!user){
-            return res.status(404).json({error: "User not found."});
-        }
-        if(password == user.password){
-            return res.status(200).json({msg: "Login successful!"});
-        }
-        else{
-            return res.status(400).json({error: "Login unsuccessful."})
-        }
+  const { username, password } = req.body;
+
+  try {
+    const user = await User.findOne({
+      username,
+      role: "faculty"
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "Faculty user not found." });
+    }
+
+    if (password === user.password) {
+      return res.status(200).json({ msg: "Login successful!" });
+    } else {
+      return res.status(400).json({ error: "Incorrect password." });
+    }
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// GET ALL STUDENT INFORMATION FOR FACULTY
+exports.getAllStudentsForFaculty = async (req, res) => {
+    try {
+        const students = await User.find({ role: "student" }).select("-password");
+
+        res.status(200).json(students);
     } catch (error) {
-        res.status(500).json({error: error.message });
+        res.status(500).json({ error: error.message });
     }
 };

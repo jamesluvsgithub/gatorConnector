@@ -3,11 +3,14 @@ import "./App.css";
 import Login from "./components/Login";
 import GoalWindow from "./components/GoalWindow";
 import ChatWindow from "./components/ChatWindow";
-
+import FacultyStudentList from "./components/FacultyStudentList";
 function App() {
-  return <GoalWindow />;
+  // return <GoalWindow />;
   // return <ChatWindow />;
-  // return <Login />;
+  return <Login />;
+  // return <SignUp />;
+  // return <FacultyLogin />;
+  // return <FacultyStudentList />;
 }
 
 export default App;

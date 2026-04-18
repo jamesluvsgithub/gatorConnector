@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Login from "./components/Login";
 import GoalWindow from "./components/GoalWindow";
 import MentorMenteeWindow from "./components/MentorMenteeWindow";
+import StudentWindow from "./components/StudentWindow";
 
 function App() {
   const linkStyle = {
@@ -32,6 +33,7 @@ function App() {
         <Link to="/" style={linkStyle}>Login</Link>
         <Link to="/goals" style={linkStyle}>Goals</Link>
         <Link to="/mentors" style={linkStyle}>Mentors</Link>
+        <Link to="/students" style={linkStyle}>Students</Link>
       </nav>
 
       {/* Routes */}
@@ -39,6 +41,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/goals" element={<GoalWindow />} />
         <Route path="/mentors" element={<MentorMenteeWindow />} />
+        <Route path="/students" element={<StudentWindow />} />
       </Routes>
     </Router>
   );

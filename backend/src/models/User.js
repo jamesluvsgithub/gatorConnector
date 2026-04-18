@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema(
 {
+    // ---------------------------------------------------------------------------------------
+    // The following (up to the next comment) are used for login and communication.
+    // ---------------------------------------------------------------------------------------
+
     username: {
         type: String,
         required: true,
@@ -12,6 +16,7 @@ const UserSchema = new mongoose.Schema(
     password: {
         type: String,
         required: true,
+        minLength: 6
     },
 
     email: {
@@ -21,10 +26,42 @@ const UserSchema = new mongoose.Schema(
         lowercase: true
     },
 
+
+    // Optional bio
+
     bio: {
         type: String,
-        default: ""
+        default: "No bio (yet!)"
     },
+
+
+    // ---------------------------------------------------------------------------------------
+    // The following (up to the next comment) are used for the matching algorithm.
+    // ---------------------------------------------------------------------------------------
+
+    majors: {
+        type: [String],
+        required: true,
+        validate: {
+            validator: function(v) {
+                return Array.isArray(v) && v.length > 0;
+            },
+            message: "At least one major is required!"
+        }
+    },
+
+    minors: {
+        type: [String]
+    },
+
+    hobbies: {
+        type: [String]
+    },
+
+
+    // ---------------------------------------------------------------------------------------
+    // The following (up to the next comment) are used for tracking user's friend statuses.
+    // ---------------------------------------------------------------------------------------
 
     friends: [{
         type: mongoose.Schema.Types.ObjectId,

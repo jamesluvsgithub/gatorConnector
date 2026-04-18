@@ -118,3 +118,167 @@ button {
 .secondary:hover {
   background: #e3e8ef !important;
 }
+
+.faculty-page {
+  min-height: 100vh;
+  padding: 48px 20px;
+  background: linear-gradient(180deg, #f5f6fa 0%, #eef2f7 100%);
+}
+
+.faculty-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.faculty-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.faculty-label {
+  margin: 0 0 10px 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.faculty-header h1 {
+  margin: 0;
+  font-size: 48px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.faculty-subtitle {
+  margin: 14px 0 0 0;
+  font-size: 16px;
+  color: #6b7280;
+}
+
+.faculty-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.faculty-student-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(17, 24, 39, 0.08);
+  border: 1px solid #e5e7eb;
+}
+
+.faculty-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.faculty-card-top h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.faculty-email {
+  margin: 6px 0 0 0;
+  color: #6b7280;
+  font-size: 15px;
+}
+
+.faculty-role-badge {
+  background: #e8f0ff;
+  color: #2d6cdf;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.faculty-bio-box {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.faculty-section-title {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.faculty-bio-text {
+  margin: 0;
+  color: #374151;
+  line-height: 1.5;
+}
+
+.faculty-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.faculty-info-item {
+  background: #ffffff;
+  border: 1px solid #edf0f4;
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.faculty-info-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.faculty-info-value {
+  font-size: 15px;
+  color: #111827;
+  word-break: break-word;
+}
+
+.faculty-status-card {
+  max-width: 700px;
+  margin: 80px auto 0 auto;
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  font-size: 18px;
+}
+
+.error-text {
+  color: #dc2626;
+}
+
+@media (max-width: 768px) {
+  .faculty-header h1 {
+    font-size: 36px;
+  }
+
+  .faculty-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .faculty-card-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

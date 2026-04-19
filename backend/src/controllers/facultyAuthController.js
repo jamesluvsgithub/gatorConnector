@@ -37,8 +37,8 @@ exports.signupUser = async (req, res) => {
     const usernameRegex = /^[a-zA-Z0-9_]{6,20}$/;
     const passwordRegex = /^(?=.*?[0-9])(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^0-9A-Za-z]).{8,32}$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const {username, password, email, majors} = req.body
-    if(!username || !password || !email || !majors || majors.length === 0){
+    const {username, password, email, department} = req.body
+    if(!username || !password || !email || !department){
         return res.status(400).json({error: "Please fill in all fields."});
     }
     if(!username.match(usernameRegex)){

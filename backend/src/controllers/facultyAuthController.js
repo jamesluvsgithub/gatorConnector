@@ -56,13 +56,14 @@ exports.signupUser = async (req, res) => {
             return res.status(400).json({error: "Username or email already exists."});
         }
 
-        const user = await User.create({username, password, email, majors});
+        const user = await User.create({username, password, email, department});
         res.status(201).json({
                 msg: "Signup successful!",
                 user: {
                     id: user._id,
                     username: user.username,
-                    email: user.email
+                    email: user.email,
+                    department: user.department
                 }   
         });
     } catch (error) {
@@ -82,7 +83,7 @@ exports.verifyUser = async (req, res) => {
                 id: user._id,
                 username: user.username,
                 email: user.email,
-                majors: user.majors
+                department: user.department
             });
         }
         catch (error) {

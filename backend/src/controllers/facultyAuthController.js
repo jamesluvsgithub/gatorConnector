@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const User = require("../models/Faculty");
 const {createSecretToken} = require("../util/secretToken");
 const bcrypt = require("bcrypt");
 
@@ -21,11 +21,12 @@ exports.loginUser = async (req, res) => {
         if(!isPasswordValid){
             return res.status(400).json({error: "Invalid password."});
         }
-        const token = createSecretToken(user._id, "user");
+        const token = createSecretToken(user._id, "faculty");
         return res.status(200).json({msg: "Login successful!", token, user: {
             id: user._id,
             username: user.username,
-            email: user.email
+            email: user.email,
+            specialty: user.specialty
         }
         });
     } catch (error) {
@@ -37,8 +38,8 @@ exports.signupUser = async (req, res) => {
     const usernameRegex = /^[a-zA-Z0-9_]{6,20}$/;
     const passwordRegex = /^(?=.*?[0-9])(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^0-9A-Za-z]).{8,32}$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const {username, password, email, department} = req.body
-    if(!username || !password || !email || !department){
+    const {username, password, email, specialty} = req.body
+    if(!username || !password || !email || !specialty){
         return res.status(400).json({error: "Please fill in all fields."});
     }
     if(!username.match(usernameRegex)){
@@ -56,14 +57,14 @@ exports.signupUser = async (req, res) => {
             return res.status(400).json({error: "Username or email already exists."});
         }
 
-        const user = await User.create({username, password, email, department});
+        const user = await User.create({username, password, email, specialty});
         res.status(201).json({
                 msg: "Signup successful!",
                 user: {
                     id: user._id,
                     username: user.username,
                     email: user.email,
-                    department: user.department
+                    specialty: user.specialty
                 }   
         });
     } catch (error) {
@@ -83,7 +84,7 @@ exports.verifyUser = async (req, res) => {
                 id: user._id,
                 username: user.username,
                 email: user.email,
-                department: user.department
+                specialty: user.specialty
             });
         }
         catch (error) {

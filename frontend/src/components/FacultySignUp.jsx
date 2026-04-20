@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function SignUp() {
+function FacultySignUp() {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
-    confirmPassword: "",
-    major: "",
+    specialty: "",
   });
 
   const [error, setError] = useState("");
@@ -32,59 +31,41 @@ function SignUp() {
       !formData.username ||
       !formData.email ||
       !formData.password ||
-      !formData.confirmPassword ||
-      !formData.major
+      !formData.specialty
     ) {
       setError("Please fill in all fields.");
       return;
     }
 
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match.");
-      return;
-    }
-
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/signup`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/facultyAuth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
-          majors: formData.major.split(","),
-        }),
+        body: JSON.stringify(formData),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || "Sign up failed");
+        throw new Error(data.error || "Signup failed");
       }
 
-      setSuccess("Account created successfully!");
-      setFormData({
-        username: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-        major: "",
-      });
+      setSuccess("Faculty account created!");
 
       setTimeout(() => {
-        navigate("/login");
+        navigate("/faculty-login");
       }, 1000);
     } catch (err) {
-      setError(err.message || "Server error. Please try again later.");
+      setError(err.message || "Server error");
     }
   };
 
   return (
     <div className="page">
       <div className="card">
-        <h2>Sign Up</h2>
+        <h2>Faculty Sign Up</h2>
 
         <input
           name="username"
@@ -109,27 +90,19 @@ function SignUp() {
         />
 
         <input
-          type="password"
-          name="confirmPassword"
-          placeholder="Confirm Password"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-        />
-
-        <input
-          name="major"
-          placeholder="Major"
-          value={formData.major}
+          name="specialty"
+          placeholder="Specialty"
+          value={formData.specialty}
           onChange={handleChange}
         />
 
         {error && <p className="error">{error}</p>}
         {success && <p className="success">{success}</p>}
 
-        <button onClick={handleSubmit}>Create Account</button>
+        <button onClick={handleSubmit}>Create Faculty Account</button>
 
         <div className="button-row">
-          <button className="secondary" onClick={() => navigate("/login")}>
+          <button onClick={() => navigate("/faculty-login")}>
             Back to Login
           </button>
         </div>
@@ -138,4 +111,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default FacultySignUp;

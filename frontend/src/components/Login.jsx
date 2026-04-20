@@ -21,7 +21,7 @@ function Login() {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:4000/api/users/login", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,6 +35,8 @@ function Login() {
       const data = await response.json();
 
       if (response.ok) {
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("token", data.token);
         setLoggedIn(true);
       } else {
         setError(data.message || "Invalid username or password");

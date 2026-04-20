@@ -9,7 +9,7 @@ function FacultyStudentList() {
     useEffect(() => {
         const fetchStudents = async () => {
             try {
-                const response = await fetch("http://localhost:4000/api/faculty/students");
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/faculty/students`);
 
                 if (!response.ok) {
                     throw new Error("Failed to fetch student information.");

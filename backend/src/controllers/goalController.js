@@ -12,6 +12,7 @@ exports.createGoal = async (req, res) => {
 };
 
 // READ
+// Read ONE goal
 exports.getGoal = async (req, res)  => {
     try {
         const goal = await Goal.findById(req.params.id);
@@ -24,6 +25,17 @@ exports.getGoal = async (req, res)  => {
 
     } catch (err) {
         res.status(500).json({ error: err.message});
+    }
+};
+
+// GET ALL GOALS FOR ONE USER
+exports.getGoalsByUser = async (req, res) => {
+    try {
+        const goals = await Goal.find({ user: req.params.userId });
+        res.status(200).json(goals);
+
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 };
 

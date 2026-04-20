@@ -32,23 +32,8 @@ function MentorMenteeWindow() {
           throw new Error("Could not get matches");
         }
         const data = await response.json();
-        console.log("[MentorMenteeWindow] matches API response:", data);
         if (Array.isArray(data.matches) && data.matches.length > 0) {
-          // Get current user's role
-          const userRole = userObj.role || userObj.accountType || userObj.type || "";
-          // Determine opposite role
-          let targetRole = "";
-          if (userRole.toLowerCase() === "mentor") targetRole = "mentee";
-          else if (userRole.toLowerCase() === "mentee") targetRole = "mentor";
-          // Filter matches for opposite role only
-          const filtered = data.matches.filter(
-            (person) => {
-              const matchRole = (person.role || person.accountType || person.type || "").toLowerCase();
-              return matchRole === targetRole;
-            }
-          );
-          setPeople(filtered);
-          if (filtered.length === 0) setMessage("No matches found.");
+          setPeople(data.matches);
         } else {
           setMessage("No matches found.");
           setPeople([]);
@@ -68,7 +53,7 @@ function MentorMenteeWindow() {
   return (
     <div style={styles.page}>
       <div style={styles.container}>
-        <h1 style={styles.title}>Meet your match</h1>
+        <h1 style={styles.title}>Find your Match</h1>
         <p style={styles.subtitle}>
           Scroll through profiles to explore possible matches.
         </p>
@@ -81,53 +66,25 @@ function MentorMenteeWindow() {
           )}
 
           {!loading &&
-            people.map((person, idx) => {
-              // Try to handle different possible field names and structures
-              const name = person.username || person.name || person.fullName || "User";
-              const role = person.role || person.accountType || person.type || "";
-              const majors = Array.isArray(person.majors)
-                ? person.majors.join(", ")
-                : person.majors || person.major || "Not provided";
-              const minors = Array.isArray(person.minors)
-                ? person.minors.join(", ")
-                : person.minors || person.minor || "Not provided";
-              const hobbies = Array.isArray(person.hobbies)
-                ? person.hobbies.join(", ")
-                : person.hobbies || person.hobby || "Not provided";
-              return (
-                <div key={person._id || person.id || idx} style={styles.card}>
-                  <div style={styles.cardTop}>
-                    <h2 style={styles.name}>{name}</h2>
-                    <span
-                      style={{
-                        ...styles.roleTag,
-                        backgroundColor:
-                          role === "Mentor"
-                            ? "#dbeafe"
-                            : "#ede9fe",
-                        color:
-                          role === "Mentor"
-                            ? "#1d4ed8"
-                            : "#6d28d9",
-                      }}
-                    >
-                      {role || "User"}
-                    </span>
-                  </div>
-
-                  <p style={styles.label}>Majors</p>
-                  <p style={styles.info}>{majors}</p>
-
-                  <p style={styles.label}>Minors</p>
-                  <p style={styles.info}>{minors}</p>
-
-                  <p style={styles.label}>Hobbies</p>
-                  <p style={styles.info}>{hobbies}</p>
-
-                  <button style={styles.button}>View Profile</button>
+            people.map((match) => (
+              <div key={match.candidate.id} style={styles.card}>
+                <div style={styles.cardTop}>
+                  <h2 style={styles.name}>{match.candidate.username}</h2>
+                  <span style={styles.scoreTag}>{match.score}% match</span>
                 </div>
-              );
-            })}
+
+                <p style={styles.label}>Majors</p>
+                <p style={styles.info}>{match.candidate.majors?.length > 0 ? match.candidate.majors.join(", ") : "Not provided"}</p>
+
+                <p style={styles.label}>Minors</p>
+                <p style={styles.info}>{match.candidate.minors?.length > 0 ? match.candidate.minors.join(", ") : "Not provided"}</p>
+
+                <p style={styles.label}>Hobbies</p>
+                <p style={styles.info}>{match.candidate.hobbies?.length > 0 ? match.candidate.hobbies.join(", ") : "Not provided"}</p>
+
+                <button style={styles.button}>View Profile</button>
+              </div>
+            ))}
         </div>
       </div>
     </div>
@@ -194,6 +151,14 @@ const styles = {
     borderRadius: "999px",
     fontSize: "12px",
     fontWeight: "600",
+  },
+  scoreTag: {
+    padding: "4px 10px",
+    borderRadius: "999px",
+    fontSize: "12px",
+    fontWeight: "600",
+    backgroundColor: "#dcfce7",
+    color: "#15803d",
   },
   label: {
     margin: "8px 0 2px 0",

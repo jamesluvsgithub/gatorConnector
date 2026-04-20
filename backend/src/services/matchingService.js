@@ -100,7 +100,13 @@ async function getTopMatches(userId, n = 10) {
   const scored = candidates.map((candidate) => {
     const result = calculateMatchScore(user, candidate);
     return {
-      candidate: { id: candidate._id, username: candidate.username },
+      candidate: {
+        id: candidate._id,
+        username: candidate.username,
+        majors: candidate.majors,
+        minors: candidate.minors,
+        hobbies: candidate.hobbies,
+      },
       ...result,
     };
   });

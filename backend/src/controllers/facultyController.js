@@ -70,3 +70,12 @@ exports.deleteFaculty = async (req, res) => {
         res.status(500).json({error: error.message });
     }
 };
+
+exports.getAllStudents = async (req, res) => {
+    try {
+        const students = await User.find({ role: "student" });
+        res.status(200).json(students);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};

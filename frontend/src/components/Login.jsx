@@ -1,15 +1,13 @@
 import { useState } from "react";
-import SignUp from "./SignUp";
-import FacultyLogin from "./FacultyLogin";
+import { useNavigate } from "react-router-dom";
 
-function Login() {
-  const [mode, setMode] = useState("login");
-
+function Login({ onLogin }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     if (!username || !password) {
@@ -37,7 +35,12 @@ function Login() {
       if (response.ok) {
         localStorage.setItem("user", JSON.stringify(data.user));
         localStorage.setItem("token", data.token);
-        setLoggedIn(true);
+
+        if (onLogin) {
+          onLogin();
+        }
+
+        navigate("/goals");
       } else {
         setError(data.message || "Invalid username or password");
       }
@@ -47,25 +50,6 @@ function Login() {
       setLoading(false);
     }
   };
-
-  if (mode === "signup") {
-    return <SignUp onBack={() => setMode("login")} />;
-  }
-
-  if (mode === "faculty") {
-    return <FacultyLogin onBack={() => setMode("login")} />;
-  }
-
-  if (loggedIn) {
-    return (
-      <div className="page">
-        <div className="card">
-          <h2>Welcome, {username}!</h2>
-          <p className="hint">You have successfully logged in.</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="page">
@@ -97,16 +81,6 @@ function Login() {
         <button onClick={handleLogin} disabled={loading}>
           {loading ? "Logging in..." : "Login"}
         </button>
-
-        <div className="button-row">
-          <button className="secondary" onClick={() => setMode("signup")}>
-            Sign Up
-          </button>
-
-          <button className="secondary" onClick={() => setMode("faculty")}>
-            Faculty Login
-          </button>
-        </div>
       </div>
     </div>
   );

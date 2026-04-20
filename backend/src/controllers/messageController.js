@@ -13,7 +13,7 @@ exports.sendMessage = async (req, res) => {
 
         const message = await Message.create({
             chatId,
-            sender: req.body.chatId,
+            sender: req.user.id,
             text
         });
 
@@ -39,7 +39,7 @@ exports.getMessages = async (req, res) => {
             .sort({ createdAt: -1 }) // newest first
             .skip((page - 1) * limit)
             .limit(Number(limit))
-            .populate("sender", "username");
+            .populate("sender", "_id username");
 
         res.status(200).json(messages.reverse()); // oldest -> newest
 
@@ -52,7 +52,7 @@ exports.getMessages = async (req, res) => {
 exports.getMessageById = async (req, res) => {
     try {
         const message = await Message.findById(req.params.id)
-            .populate("sender", "username");
+            .populate("sender", "_id username");
 
         if (!message) {
             return res.status(404).json({ error: "Message not found" });

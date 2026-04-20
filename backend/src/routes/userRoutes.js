@@ -44,6 +44,9 @@ router.put("/profile", requireAuth.userVerification, async (req, res) => {
         res.status(500).json({ error: "Failed to update profile" });
     }
 });
+
+// Get all users (public, for StudentWindow)
+router.get("/all", userController.getAllUsers);
 router.post("/", requireAuth.userVerification, requireRole("user"), userController.createUser);
 router.get("/:id", requireAuth.userVerification, requireRole("user"), userController.getUser);
 router.put("/:id", requireAuth.userVerification, requireRole("user"), userController.updateUser);

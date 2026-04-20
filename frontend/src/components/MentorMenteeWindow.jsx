@@ -1,81 +1,59 @@
+
 import { useEffect, useState } from "react";
 
-const samplePeople = [
-  {
-    id: 1,
-    name: "Camila Gomez",
-    role: "Mentor",
-    major: "Computer Science",
-    interests: "Web Development, UX Design",
-  },
-  {
-    id: 2,
-    name: "David Nguyen",
-    role: "Mentee",
-    major: "Information Systems",
-    interests: "Data Analytics, Product Design",
-  },
-  {
-    id: 3,
-    name: "Sofia Brown",
-    role: "Mentor",
-    major: "Computer Engineering",
-    interests: "Robotics, Embedded Systems",
-  },
-  {
-    id: 4,
-    name: "Marleigh Martinez",
-    role: "Mentee",
-    major: "Digital Arts and Sciences",
-    interests: "UI/UX, Frontend Development",
-  },
-  {
-    id: 5,
-    name: "Ethan Russell",
-    role: "Mentor",
-    major: "Data Science",
-    interests: "Machine Learning, Python",
-  },
-];
-
 function MentorMenteeWindow() {
+
   const [people, setPeople] = useState([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    const getPeople = async () => {
+    const getMatches = async () => {
+      setLoading(true);
+      setMessage("");
       try {
-        const response = await fetch("http://localhost:4000/users");
-
-        if (!response.ok) {
-          throw new Error("Could not get users");
+        const userStr = localStorage.getItem("user");
+        const token = localStorage.getItem("token");
+        if (!userStr || !token) {
+          setMessage("Not logged in.");
+          setLoading(false);
+          return;
         }
-
+        const userObj = JSON.parse(userStr);
+        const userId = userObj._id || userObj.id;
+        const response = await fetch(`http://localhost:4000/api/matching/top/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Could not get matches");
+        }
         const data = await response.json();
-
-        if (Array.isArray(data) && data.length > 0) {
-          setPeople(data);
+        if (Array.isArray(data.matches) && data.matches.length > 0) {
+          setPeople(data.matches);
         } else {
-          setPeople(samplePeople);
-          setMessage("Showing sample profiles for now.");
+          setMessage("No matches found.");
+          setPeople([]);
         }
       } catch (error) {
-        console.log("Backend not ready yet, using sample data.");
-        setPeople(samplePeople);
-        setMessage("Showing sample profiles for now.");
+        setMessage("Error loading matches.");
+        setPeople([]);
       } finally {
         setLoading(false);
       }
     };
-
-    getPeople();
+    getMatches();
   }, []);
+
+
 
   return (
     <div style={styles.page}>
       <div style={styles.container}>
-        <h1 style={styles.title}>Mentors and Mentees</h1>
+        <h1 style={styles.title}>Find your Match</h1>
         <p style={styles.subtitle}>
           Scroll through profiles to explore possible matches.
         </p>
@@ -88,34 +66,21 @@ function MentorMenteeWindow() {
           )}
 
           {!loading &&
-            people.map((person) => (
-              <div key={person.id || person._id} style={styles.card}>
+            people.map((match) => (
+              <div key={match.candidate.id} style={styles.card}>
                 <div style={styles.cardTop}>
-                  <h2 style={styles.name}>{person.name || person.username}</h2>
-                  <span
-                    style={{
-                      ...styles.roleTag,
-                      backgroundColor:
-                        (person.role || person.accountType) === "Mentor"
-                          ? "#dbeafe"
-                          : "#ede9fe",
-                      color:
-                        (person.role || person.accountType) === "Mentor"
-                          ? "#1d4ed8"
-                          : "#6d28d9",
-                    }}
-                  >
-                    {person.role || person.accountType || "User"}
-                  </span>
+                  <h2 style={styles.name}>{match.candidate.username}</h2>
+                  <span style={styles.scoreTag}>{match.score}% match</span>
                 </div>
 
-                <p style={styles.label}>Major</p>
-                <p style={styles.info}>{person.major || "Not provided"}</p>
+                <p style={styles.label}>Majors</p>
+                <p style={styles.info}>{match.candidate.majors?.length > 0 ? match.candidate.majors.join(", ") : "Not provided"}</p>
 
-                <p style={styles.label}>Interests</p>
-                <p style={styles.info}>
-                  {person.interests || "Not provided"}
-                </p>
+                <p style={styles.label}>Minors</p>
+                <p style={styles.info}>{match.candidate.minors?.length > 0 ? match.candidate.minors.join(", ") : "Not provided"}</p>
+
+                <p style={styles.label}>Hobbies</p>
+                <p style={styles.info}>{match.candidate.hobbies?.length > 0 ? match.candidate.hobbies.join(", ") : "Not provided"}</p>
 
                 <button style={styles.button}>View Profile</button>
               </div>
@@ -186,6 +151,14 @@ const styles = {
     borderRadius: "999px",
     fontSize: "12px",
     fontWeight: "600",
+  },
+  scoreTag: {
+    padding: "4px 10px",
+    borderRadius: "999px",
+    fontSize: "12px",
+    fontWeight: "600",
+    backgroundColor: "#dcfce7",
+    color: "#15803d",
   },
   label: {
     margin: "8px 0 2px 0",

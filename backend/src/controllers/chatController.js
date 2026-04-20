@@ -1,6 +1,6 @@
 const Chat = require("../models/Chat");
 
-// CREATE or get regular chat
+//  regular chat
 exports.createChat = async (req, res) => {
     try {
         const { userId } = req.body;
@@ -11,15 +11,14 @@ exports.createChat = async (req, res) => {
 
         // check if chat already exists
         let chat = await Chat.findOne({
-            people: { $all: [req.user._id, userId], $size: 2 }
-        }).populate("people", "username");
+            people: { $all: [req.user.id, userId], $size: 2 }
+        }).populate("people", "_id username");
 
         if (!chat) {
             chat = await Chat.create({
-                people: [req.user._id, userId]
+                people: [req.user.id, userId]
             });
-
-            chat = await chat.populate("people", "username");
+            chat = await chat.populate("people", "_id username");
         }
 
         res.status(200).json(chat);
@@ -31,7 +30,7 @@ exports.createChat = async (req, res) => {
 
 
 
-// CREATE group chat
+// CREATE chat
 exports.createGroupChat = async (req, res) => {
     try {
         let { people } = req.body;
@@ -40,8 +39,7 @@ exports.createGroupChat = async (req, res) => {
             return res.status(400).json({ error: "At least 2 users required" });
         }
 
-        // include current user & remove duplicates
-        people = [...new Set([...people, req.user._id.toString()])];
+        people = [...new Set([...people, req.user.id.toString()])];
 
         const chat = await Chat.create({ people });
 
@@ -53,14 +51,12 @@ exports.createGroupChat = async (req, res) => {
 };
 
 
-
-// READ - all chats for a user
 exports.getUserChats = async (req, res) => {
     try {
         const chats = await Chat.find({
-            people: req.user._id
+            people: req.user.id
         })
-        .populate("people", "username")
+        .populate("people", "_id username")
         .populate({
             path: "lastMessage",
             populate: {
@@ -79,11 +75,10 @@ exports.getUserChats = async (req, res) => {
 
 
 
-// READ - single chat
 exports.getChatById = async (req, res) => {
     try {
         const chat = await Chat.findById(req.params.id)
-            .populate("people", "username")
+            .populate("people", "_id username")
             .populate({
                 path: "lastMessage",
                 populate: {
@@ -98,7 +93,7 @@ exports.getChatById = async (req, res) => {
 
         // ensure user is part of chat
         const isMember = chat.people.some(
-            user => user._id.toString() === req.user._id.toString()
+            u => u._id.toString() === req.user.id.toString()
         );
 
         if (!isMember) {
@@ -114,7 +109,7 @@ exports.getChatById = async (req, res) => {
 
 
 
-// DELETE
+// delete chat
 exports.deleteChat = async (req, res) => {
     try {
         const chat = await Chat.findById(req.params.id);
@@ -124,7 +119,7 @@ exports.deleteChat = async (req, res) => {
         }
 
         const isMember = chat.people.some(
-            user => user.toString() === req.user._id.toString()
+            u => u.toString() === req.user.id.toString()
         );
 
         if (!isMember) {

@@ -76,8 +76,8 @@ function AppContent() {
             <>
               <Link to="/goals" style={linkStyle}>Goals</Link>
               <Link to="/profile" style={linkStyle}>Profile</Link>
-              <Link to="/mentors" style={linkStyle}>Mentors</Link>
-              <Link to="/students" style={linkStyle}>Students</Link>
+              <Link to="/mentors" style={linkStyle}>Matches</Link>
+              <Link to="/students" style={linkStyle}>Community</Link>
               <Link to="/chat" style={linkStyle}>Chat</Link>
             </>
           )}

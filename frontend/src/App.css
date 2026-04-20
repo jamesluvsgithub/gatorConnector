@@ -400,3 +400,158 @@ button {
 .danger-button:hover {
   background-color: #b91c1c;
 }
+
+.profile-page {
+  padding: 24px 20px 32px;
+}
+
+.profile-container {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile-header {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px 28px;
+  box-shadow: 0 8px 24px rgba(17, 24, 39, 0.08);
+  text-align: center;
+}
+
+.profile-header h1 {
+  margin: 0;
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #111827;
+}
+
+.profile-email {
+  margin: 8px 0 0 0;
+  font-size: 16px;
+  color: #6b7280;
+}
+
+.profile-card-large {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 22px 24px;
+  box-shadow: 0 8px 24px rgba(17, 24, 39, 0.08);
+  text-align: center;
+}
+
+.profile-card-large h2 {
+  margin: 0 0 12px 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #6b7280;
+  letter-spacing: 0.02em;
+}
+
+.profile-card-large p {
+  margin: 0;
+  font-size: 18px;
+  color: #111827;
+  line-height: 1.45;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.profile-info-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px 18px;
+  box-shadow: 0 8px 24px rgba(17, 24, 39, 0.08);
+  text-align: center;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.profile-info-card h3 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #6b7280;
+}
+
+.profile-info-card p {
+  margin: 0;
+  font-size: 17px;
+  color: #111827;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.profile-info-card input,
+.profile-card-large textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.profile-card-large textarea,
+.profile-info-card input {
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 15px;
+}
+
+.profile-card-large textarea:focus,
+.profile-info-card input:focus {
+  outline: none;
+  border-color: #2d6cdf;
+}
+
+.profile-actions {
+  justify-content: center;
+  gap: 12px;
+}
+
+.profile-actions button {
+  width: 140px;
+  flex: unset;
+  padding: 12px 18px;
+  font-size: 16px;
+  border-radius: 10px;
+}
+
+.profile-checkbox {
+  font-size: 16px;
+  color: #111827;
+}
+
+@media (max-width: 768px) {
+  .profile-page {
+    padding: 20px 16px 28px;
+  }
+
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-header h1 {
+    font-size: 34px;
+  }
+
+  .profile-email {
+    font-size: 15px;
+  }
+
+  .profile-card-large p,
+  .profile-info-card p {
+    font-size: 16px;
+  }
+
+  .profile-actions button {
+    width: 100%;
+  }
+}

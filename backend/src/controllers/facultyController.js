@@ -73,7 +73,7 @@ exports.deleteFaculty = async (req, res) => {
 
 exports.getAllStudents = async (req, res) => {
     try {
-        const students = await User.find({ role: "student" });
+        const students = await User.find({}).select("-password");
         res.status(200).json(students);
     } catch (error) {
         res.status(500).json({ error: error.message });

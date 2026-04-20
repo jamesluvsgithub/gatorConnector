@@ -27,12 +27,15 @@ const UserSchema = new mongoose.Schema(
         lowercase: true
     },
 
-
+    isPublic: {
+        type: Boolean,
+        default: false
+    },
     // Optional bio
 
     bio: {
         type: String,
-        default: "No bio (yet!)"
+        default: ""
     },
 
 

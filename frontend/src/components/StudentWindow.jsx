@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const sampleStudents = [
   {
@@ -39,6 +40,7 @@ const sampleStudents = [
 ];
 
 function StudentWindow() {
+  const navigate = useNavigate();
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
@@ -46,16 +48,14 @@ function StudentWindow() {
   useEffect(() => {
     const getStudents = async () => {
       try {
-        const response = await fetch("http://localhost:4000/users");
-
+        const response = await fetch("http://localhost:4000/api/users/all");
         if (!response.ok) {
           throw new Error("Could not get students");
         }
-
         const data = await response.json();
-
         if (Array.isArray(data) && data.length > 0) {
           setStudents(data);
+          setMessage("");
         } else {
           setStudents(sampleStudents);
           setMessage("Showing sample student data for now.");
@@ -75,7 +75,7 @@ function StudentWindow() {
   return (
     <div style={styles.page}>
       <div style={styles.container}>
-        <h1 style={styles.title}>Students</h1>
+        <h1 style={styles.title}>Community</h1>
         <p style={styles.subtitle}>
           Scroll through student profiles to view their information.
         </p>
@@ -88,26 +88,38 @@ function StudentWindow() {
           )}
 
           {!loading &&
-            students.map((student) => (
-              <div key={student.id || student._id} style={styles.card}>
-                <div style={styles.cardTop}>
-                  <h2 style={styles.name}>{student.name || student.username}</h2>
+            students.map((student) => {
+              const name = student.username || student.name || student.fullName || "User";
+              const majors = Array.isArray(student.majors) ? student.majors.join(", ") : student.majors || student.major || "Not provided";
+              const minors = Array.isArray(student.minors) ? student.minors.join(", ") : student.minors || student.minor || "Not provided";
+              const hobbies = Array.isArray(student.hobbies) ? student.hobbies.join(", ") : student.hobbies || student.hobby || "Not provided";
+              return (
+                <div key={student._id || student.id} style={styles.card}>
+                  <div style={styles.cardTop}>
+                    <h2 style={styles.name}>{name}</h2>
+                  </div>
+
+                  <p style={styles.label}>Majors</p>
+                  <p style={styles.info}>{majors}</p>
+
+                  <p style={styles.label}>Minors</p>
+                  <p style={styles.info}>{minors}</p>
+
+                  <p style={styles.label}>Hobbies</p>
+                  <p style={styles.info}>{hobbies}</p>
+
+                  <button
+                    style={styles.button}
+                    onClick={() => {
+                      const name = encodeURIComponent(student.username || student.name || student.fullName || "User");
+                      navigate(`/chat?userId=${student._id || student.id}&username=${name}`);
+                    }}
+                  >
+                    Chat with Student
+                  </button>
                 </div>
-
-                <p style={styles.label}>Major</p>
-                <p style={styles.info}>{student.major || "Not provided"}</p>
-
-                <p style={styles.label}>Year</p>
-                <p style={styles.info}>{student.year || "Not provided"}</p>
-
-                <p style={styles.label}>Interests</p>
-                <p style={styles.info}>
-                  {student.interests || "Not provided"}
-                </p>
-
-                <button style={styles.button}>View Student</button>
-              </div>
-            ))}
+              );
+            })}
         </div>
       </div>
     </div>

@@ -1,15 +1,15 @@
 import { useState } from "react";
-import FacultyStudentList from "./FacultyStudentList";
+import { useNavigate } from "react-router-dom";
 
-function FacultyLogin({ onBack }) {
+function FacultyLogin({ onLogin }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleFacultyLogin = async () => {
-
     if (!username || !password) {
       setError("Please fill in all fields");
       return;
@@ -19,7 +19,7 @@ function FacultyLogin({ onBack }) {
     setError("");
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/faculty/login`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/facultyAuth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -37,17 +37,22 @@ function FacultyLogin({ onBack }) {
         return;
       }
 
-      setLoggedIn(true);
+      localStorage.setItem("facultyUser", JSON.stringify(data.user || { username }));
+      if (data.token) {
+        localStorage.setItem("facultyToken", data.token);
+      }
+
+      if (onLogin) {
+        onLogin();
+      }
+
+      navigate("/faculty-students");
     } catch (err) {
       setError("Server error. Please try again later.");
     } finally {
       setLoading(false);
     }
   };
-
-  if (loggedIn) {
-    return <FacultyStudentList onBack={onBack} />;
-  }
 
   return (
     <div className="page">
@@ -81,8 +86,11 @@ function FacultyLogin({ onBack }) {
         </button>
 
         <div className="button-row">
-          <button className="secondary" onClick={onBack}>
-            Back to Login
+          <button
+            className="secondary"
+            onClick={() => navigate("/faculty-signup")}
+          >
+            Sign Up as Faculty
           </button>
         </div>
       </div>

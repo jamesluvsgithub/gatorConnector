@@ -7,25 +7,36 @@ function FacultyStudentList() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchStudents = async () => {
-            try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/faculty/students`);
+  const fetchStudents = async () => {
+    try {
+      const token = localStorage.getItem("facultyToken");
 
-                if (!response.ok) {
-                    throw new Error("Failed to fetch student information.");
-                }
+      if (!token) {
+        throw new Error("No faculty token found. Please log in again.");
+      }
 
-                const data = await response.json();
-                setStudents(data);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/faculty/students`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-        fetchStudents();
-    }, []);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to fetch students");
+      }
+
+      setStudents(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchStudents();
+}, []);
 
     if (loading) {
         return (

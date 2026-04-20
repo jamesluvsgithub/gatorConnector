@@ -3,7 +3,6 @@ const router = express.Router();
 const userController = require("../controllers/userController");
 const requireAuth = require("../middleware/requireAuth");
 const { requireRole } = require("../middleware/requireAuth");
-
 const User = require("../models/User");
 
 router.get("/me", requireAuth.userVerification, async (req, res) => {
@@ -52,5 +51,4 @@ router.post("/", requireAuth.userVerification, requireRole("user"), userControll
 router.get("/:id", requireAuth.userVerification, requireRole("user"), userController.getUser);
 router.put("/:id", requireAuth.userVerification, requireRole("user"), userController.updateUser);
 router.delete("/:id", requireAuth.userVerification, requireRole("user"), userController.deleteUser);
-
 module.exports = router;

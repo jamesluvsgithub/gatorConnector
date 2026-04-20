@@ -54,7 +54,10 @@ function SignUp() {
           username: formData.username,
           email: formData.email,
           password: formData.password,
-          majors: formData.major.split(","),
+          majors: formData.major
+              .split(",")
+              .map((item) => item.trim())
+              .filter(Boolean),
         }),
       });
 

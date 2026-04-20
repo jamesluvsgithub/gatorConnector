@@ -11,6 +11,7 @@ import FacultyLogin from "./components/FacultyLogin";
 import FacultyStudentList from "./components/FacultyStudentList";
 import WelcomePage from "./components/WelcomePage";
 import FacultySignUp from "./components/FacultySignUp";
+import ProfileWindow from "./components/ProfileWindow";
 
 function AppContent() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -74,6 +75,7 @@ function AppContent() {
           {userType === "student" && (
             <>
               <Link to="/goals" style={linkStyle}>Goals</Link>
+              <Link to="/profile" style={linkStyle}>Profile</Link>
               <Link to="/mentors" style={linkStyle}>Matches</Link>
               <Link to="/students" style={linkStyle}>Community</Link>
               <Link to="/chat" style={linkStyle}>Chat</Link>
@@ -117,6 +119,7 @@ function AppContent() {
         />
         <Route path="/faculty-signup" element={<FacultySignUp />} />
         <Route path="/goals" element={<GoalWindow />} />
+        <Route path="/profile" element={<ProfileWindow />} />
         <Route path="/mentors" element={<MentorMenteeWindow />} />
         <Route path="/students" element={<StudentWindow />} />
         <Route path="/chat" element={<ChatWindow />} />

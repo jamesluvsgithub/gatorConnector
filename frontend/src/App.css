@@ -1,0 +1,557 @@
+body {
+  margin: 0;
+  background-color: #f5f6fa;
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  color: #111827;
+}
+input,
+textarea,
+button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  width: 420px;
+  background: #ffffff;
+  padding: 28px;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.card h2 {
+  margin: 0 0 4px 0;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.card input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #cfcfcf;
+  border-radius: 8px;
+}
+
+.card input:focus {
+  outline: none;
+  border-color: #2d6cdf;
+}
+
+.card button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: #2d6cdf;
+  color: white;
+  cursor: pointer;
+}
+
+.card button:hover {
+  background-color: #1f57b8;
+}
+
+.error {
+  margin: 0;
+  text-align: center;
+  color: red;
+  font-size: 14px;
+}
+
+.hint {
+  margin: 0;
+  text-align: center;
+  color: #777;
+  font-size: 12px;
+}
+
+.card textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  resize: none;
+}
+
+.card textarea:focus {
+  outline: none;
+  border-color: #2d6cdf;
+}
+
+
+.success {
+  color: green;
+  font-size: 14px;
+  text-align: center;
+  margin: 0;
+}
+
+.button-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+
+.secondary {
+  background: #eef1f5 !important;
+  color: #333 !important;
+  border: 1px solid #d6dbe3 !important;
+}
+
+.secondary:hover {
+  background: #e3e8ef !important;
+}
+
+.faculty-page {
+  min-height: 100vh;
+  padding: 48px 20px;
+  background: linear-gradient(180deg, #f5f6fa 0%, #eef2f7 100%);
+}
+
+.faculty-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.faculty-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.faculty-label {
+  margin: 0 0 10px 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.faculty-header h1 {
+  margin: 0;
+  font-size: 48px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.faculty-subtitle {
+  margin: 14px 0 0 0;
+  font-size: 16px;
+  color: #6b7280;
+}
+
+.faculty-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.faculty-student-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(17, 24, 39, 0.08);
+  border: 1px solid #e5e7eb;
+}
+
+.faculty-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.faculty-card-top h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.faculty-email {
+  margin: 6px 0 0 0;
+  color: #6b7280;
+  font-size: 15px;
+}
+
+.faculty-role-badge {
+  background: #e8f0ff;
+  color: #2d6cdf;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.faculty-bio-box {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.faculty-section-title {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.faculty-bio-text {
+  margin: 0;
+  color: #374151;
+  line-height: 1.5;
+}
+
+.faculty-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.faculty-info-item {
+  background: #ffffff;
+  border: 1px solid #edf0f4;
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.faculty-info-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.faculty-info-value {
+  font-size: 15px;
+  color: #111827;
+  word-break: break-word;
+}
+
+.faculty-status-card {
+  max-width: 700px;
+  margin: 80px auto 0 auto;
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  font-size: 18px;
+}
+
+.error-text {
+  color: #dc2626;
+}
+
+@media (max-width: 768px) {
+  .faculty-header h1 {
+    font-size: 36px;
+  }
+
+  .faculty-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .faculty-card-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+.goal-page {
+  padding: 28px 24px 36px;
+}
+
+.goal-layout {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.goal-card,
+.goal-list-card {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.goal-select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #cfcfcf;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.goal-select:focus {
+  outline: none;
+  border-color: #2d6cdf;
+}
+
+
+.goal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.goal-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  background: #f9fafb;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.goal-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.goal-item h3 {
+  margin: 0 0 8px 0;
+  font-size: 22px;
+}
+
+.goal-item-description {
+  margin: 0;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+.goal-status {
+  align-self: flex-start;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.goal-status.not-started {
+  background: #eef2f7;
+  color: #4b5563;
+}
+
+.goal-status.in-progress {
+  background: #e8f0ff;
+  color: #2d6cdf;
+}
+
+.goal-status.completed {
+  background: #e8f7ee;
+  color: #15803d;
+}
+
+.button-row button {
+  width: auto;
+  flex: 1;
+}
+
+.goal-card .button-row button,
+.goal-list-card .button-row button {
+  width: auto;
+  flex: 1;
+}
+
+.danger-button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: #dc2626;
+  color: white;
+  cursor: pointer;
+}
+
+.danger-button:hover {
+  background-color: #b91c1c;
+}
+
+.profile-page {
+  padding: 24px 20px 32px;
+}
+
+.profile-container {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile-header {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px 28px;
+  box-shadow: 0 8px 24px rgba(17, 24, 39, 0.08);
+  text-align: center;
+}
+
+.profile-header h1 {
+  margin: 0;
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #111827;
+}
+
+.profile-email {
+  margin: 8px 0 0 0;
+  font-size: 16px;
+  color: #6b7280;
+}
+
+.profile-card-large {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 22px 24px;
+  box-shadow: 0 8px 24px rgba(17, 24, 39, 0.08);
+  text-align: center;
+}
+
+.profile-card-large h2 {
+  margin: 0 0 12px 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #6b7280;
+  letter-spacing: 0.02em;
+}
+
+.profile-card-large p {
+  margin: 0;
+  font-size: 18px;
+  color: #111827;
+  line-height: 1.45;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.profile-info-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px 18px;
+  box-shadow: 0 8px 24px rgba(17, 24, 39, 0.08);
+  text-align: center;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.profile-info-card h3 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #6b7280;
+}
+
+.profile-info-card p {
+  margin: 0;
+  font-size: 17px;
+  color: #111827;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.profile-info-card input,
+.profile-card-large textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.profile-card-large textarea,
+.profile-info-card input {
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 15px;
+}
+
+.profile-card-large textarea:focus,
+.profile-info-card input:focus {
+  outline: none;
+  border-color: #2d6cdf;
+}
+
+.profile-actions {
+  justify-content: center;
+  gap: 12px;
+}
+
+.profile-actions button {
+  width: 140px;
+  flex: unset;
+  padding: 12px 18px;
+  font-size: 16px;
+  border-radius: 10px;
+}
+
+.profile-checkbox {
+  font-size: 16px;
+  color: #111827;
+}
+
+@media (max-width: 768px) {
+  .profile-page {
+    padding: 20px 16px 28px;
+  }
+
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-header h1 {
+    font-size: 34px;
+  }
+
+  .profile-email {
+    font-size: 15px;
+  }
+
+  .profile-card-large p,
+  .profile-info-card p {
+    font-size: 16px;
+  }
+
+  .profile-actions button {
+    width: 100%;
+  }
+}

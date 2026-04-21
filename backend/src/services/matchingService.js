@@ -141,5 +141,6 @@ async function getTopMatchesForMentee(userId, n = 10) {
 module.exports = {
   calculateMatchScore,
   getMatchScoreByIds,
-  getTopMatches,
+  getTopMatchesForMentee,
+  getTopMatchesForMentor,
 };

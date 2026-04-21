@@ -5,6 +5,7 @@ function ProfileWindow() {
     username: "",
     email: "",
     bio: "",
+    accountType: "",
     majors: "",
     minors: "",
     hobbies: "",
@@ -32,6 +33,7 @@ function ProfileWindow() {
             username: data.username || "",
             email: data.email || "",
             bio: data.bio || "",
+            accountType: data.accountType || "",
             majors: data.majors?.join(", ") || "",
             minors: data.minors?.join(", ") || "",
             hobbies: data.hobbies?.join(", ") || "",
@@ -68,6 +70,7 @@ function ProfileWindow() {
         },
         body: JSON.stringify({
           bio: profile.bio,
+          accountType: profile.accountType,
           majors: profile.majors.split(",").map((item) => item.trim()).filter(Boolean),
           minors: profile.minors.split(",").map((item) => item.trim()).filter(Boolean),
           hobbies: profile.hobbies.split(",").map((item) => item.trim()).filter(Boolean),
@@ -80,6 +83,15 @@ function ProfileWindow() {
       if (res.ok) {
         setMessage("Profile updated successfully");
         setEditing(false);
+        const storedUser = JSON.parse(localStorage.getItem("user")) || {};
+
+  localStorage.setItem(
+    "user",
+    JSON.stringify({
+      ...storedUser,
+      accountType: profile.accountType,
+    })
+  );
       } else {
         setMessage(data.error || "Failed to update profile");
       }
@@ -107,7 +119,7 @@ function ProfileWindow() {
             />
           ) : (
             <p>
-            {profile.bio && profile.bio !== "No bio (yet!)"
+              {profile.bio && profile.bio !== "No bio (yet!)"
                 ? profile.bio
                 : "Add a short bio about yourself."}
             </p>
@@ -115,6 +127,28 @@ function ProfileWindow() {
         </div>
 
         <div className="profile-grid">
+          <div className="profile-info-card">
+            <h3>Role</h3>
+            {editing ? (
+                    <select
+        name="accountType"
+        value={profile.accountType}
+        onChange={handleChange}
+        className=""
+        >
+        <option value="">Select role</option>
+        <option value="mentor">Mentor</option>
+        <option value="mentee">Mentee</option>
+        </select>
+            ) : (
+              <p>
+                {profile.accountType
+                  ? profile.accountType.charAt(0).toUpperCase() + profile.accountType.slice(1)
+                  : "Not set"}
+              </p>
+            )}
+          </div>
+
           <div className="profile-info-card">
             <h3>Public Profile</h3>
             {editing ? (

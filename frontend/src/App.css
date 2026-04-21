@@ -498,15 +498,17 @@ button {
 }
 
 .profile-card-large textarea,
-.profile-info-card input {
+.profile-info-card input,
+.profile-info-card select {
   border: 1px solid #d1d5db;
   border-radius: 10px;
   padding: 12px 14px;
   font-size: 15px;
 }
 
-.profile-card-large textarea:focus,
-.profile-info-card input:focus {
+.profile-card-large textarea,
+.profile-info-card input,
+.profile-info-card select {
   outline: none;
   border-color: #2d6cdf;
 }

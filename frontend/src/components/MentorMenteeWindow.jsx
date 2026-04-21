@@ -1,8 +1,9 @@
 
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function MentorMenteeWindow() {
-
+  const navigate = useNavigate();
   const [people, setPeople] = useState([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
@@ -21,7 +22,11 @@ function MentorMenteeWindow() {
         }
         const userObj = JSON.parse(userStr);
         const userId = userObj._id || userObj.id;
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/matching/top/${userId}`,
+        const accountType = userObj.accountType;
+        const endpoint = accountType === "mentor"
+          ? `http://localhost:4000/api/matching/top/mentor/${userId}`
+          : `http://localhost:4000/api/matching/top/mentee/${userId}`;
+        const response = await fetch(endpoint,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -32,8 +37,9 @@ function MentorMenteeWindow() {
           throw new Error("Could not get matches");
         }
         const data = await response.json();
-        if (Array.isArray(data.matches) && data.matches.length > 0) {
-          setPeople(data.matches);
+        const matches = Array.isArray(data) ? data : data.matches;
+        if (Array.isArray(matches) && matches.length > 0) {
+          setPeople(matches);
         } else {
           setMessage("No matches found.");
           setPeople([]);
@@ -82,7 +88,15 @@ function MentorMenteeWindow() {
                 <p style={styles.label}>Hobbies</p>
                 <p style={styles.info}>{match.candidate.hobbies?.length > 0 ? match.candidate.hobbies.join(", ") : "Not provided"}</p>
 
-                <button style={styles.button}>View Profile</button>
+                <button
+                  style={styles.button}
+                  onClick={() => {
+                    const name = encodeURIComponent(match.candidate.username || "User");
+                    navigate(`/chat?userId=${match.candidate.id}&username=${name}`);
+                  }}
+                >
+                  Chat
+                </button>
               </div>
             ))}
         </div>

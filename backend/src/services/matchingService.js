@@ -125,7 +125,6 @@ async function getTopMatchesForMentee(userId, n = 10) {
 
   // Exclude self; you could also add friends to the exclusion list here
   const candidates = await User.find({ _id: { $ne: userId }, accountType: "mentor" }).select('username majors minors hobbies isPublic accountType');
-
   const scored = candidates.map((candidate) => {
     const result = calculateMatchScore(user, candidate);
     return {

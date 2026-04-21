@@ -120,7 +120,6 @@ async function getTopMatchesForMentor(userId, n = 10) {
 // Get top n mentor matches for a mentee, not including themselves.
 
 async function getTopMatchesForMentee(userId, n = 10) {
-  const user = await User.findById(userId).select('username majors minors hobbies');
   if (!user) throw new Error(`User not found: ${userId}`);
 
   // Exclude self; you could also add friends to the exclusion list here

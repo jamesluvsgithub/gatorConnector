@@ -45,6 +45,8 @@ const UserSchema = new mongoose.Schema(
 
     accountType: {
         type: String,
+        default: "mentee",
+        required: true,
         enum: {
             values: ["mentor", "mentee"],
             message: "Can only be either mentor or mentee"

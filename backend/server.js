@@ -18,7 +18,7 @@ const goalRoutes = require("./src/routes/goalRoutes");
 const facultyRoutes = require("./src/routes/facultyRoutes");
 const chatRoutes = require("./src/routes/chatRoutes");
 const messageRoutes = require("./src/routes/messageRoutes");
-const matchRouter = require("./src/routes/matchRouter");
+const matchRouter = require("./src/routes/matchRoutes");
 const authRoutes = require("./src/routes/authRoutes");
 const facultyAuthRoutes = require("./src/routes/facultyAuthRoutes");
 

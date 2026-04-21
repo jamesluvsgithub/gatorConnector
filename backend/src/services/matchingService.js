@@ -65,9 +65,9 @@ function calculateMatchScore(userA, userB) {
   };
 }
 
-// ---------------------------------------------------------------------------
-// DB-backed: score two users by ID
-// ---------------------------------------------------------------------------
+
+
+// score two users by id
 
 async function getMatchScoreByIds(userIdA, userIdB) {
   const [userA, userB] = await Promise.all([
@@ -88,14 +88,14 @@ async function getMatchScoreByIds(userIdA, userIdB) {
 }
 
 
-// Get top n matches for a user, not including themselves.
+// Get top n mentee matches for a mentor, not including themselves.
 
-async function getTopMatches(userId, n = 10) {
-  const user = await User.findById(userId).select('username majors minors hobbies isPublic');
+async function getTopMatchesForMentor(userId, n = 10) {
+  const user = await User.findById(userId).select('username majors minors hobbies');
   if (!user) throw new Error(`User not found: ${userId}`);
 
   // Exclude self; you could also add friends to the exclusion list here
-  const candidates = await User.find({ _id: { $ne: userId }, isPublic: { $eq: true } }).select('username majors minors hobbies isPublic');
+  const candidates = await User.find({ _id: { $ne: userId, type: "mentee" } }).select('username majors minors hobbies');
 
   const scored = candidates.map((candidate) => {
     const result = calculateMatchScore(user, candidate);
@@ -115,8 +115,39 @@ async function getTopMatches(userId, n = 10) {
   return scored.sort((a, b) => b.score - a.score).slice(0, n);
 }
 
+
+
+// Get top n mentor matches for a mentee, not including themselves.
+
+async function getTopMatchesForMentee(userId, n = 10) {
+  const user = await User.findById(userId).select('username majors minors hobbies');
+  if (!user) throw new Error(`User not found: ${userId}`);
+
+  // Exclude self; you could also add friends to the exclusion list here
+  const candidates = await User.find({ _id: { $ne: userId, type: "mentor" } }).select('username majors minors hobbies');
+
+  const scored = candidates.map((candidate) => {
+    const result = calculateMatchScore(user, candidate);
+    return {
+      candidate: {
+        id: candidate._id,
+        username: candidate.username,
+        majors: candidate.majors,
+        minors: candidate.minors,
+        hobbies: candidate.hobbies,
+    },
+      ...result,
+    };
+  });
+
+  return scored.sort((a, b) => b.score - a.score).slice(0, n);
+}
+
+
+
 module.exports = {
   calculateMatchScore,
   getMatchScoreByIds,
-  getTopMatches,
+  getTopMatchesForMentee,
+  getTopMatchesForMentor,
 };

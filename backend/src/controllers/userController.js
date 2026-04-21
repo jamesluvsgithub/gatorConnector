@@ -53,7 +53,7 @@ exports.updateUser = async (req, res) => {
 // GET ALL (public, for StudentWindow)
 exports.getAllUsers = async (req, res) => {
     try {
-        const users = await User.find({}).select("_id username majors minors hobbies bio");
+        const users = await User.find({}).select("_id username majors minors hobbies bio isPublic");
         res.status(200).json(users);
     } catch (err) {
         res.status(500).json({ error: err.message });

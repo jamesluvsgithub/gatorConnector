@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 const sampleStudents = [
   {
     id: 1,
@@ -48,13 +47,14 @@ function StudentWindow() {
   useEffect(() => {
     const getStudents = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/users/all");
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users/all`);
         if (!response.ok) {
           throw new Error("Could not get students");
         }
         const data = await response.json();
+
         if (Array.isArray(data) && data.length > 0) {
-          setStudents(data);
+          setStudents(data.filter(user => user.isPublic === true));
           setMessage("");
         } else {
           setStudents(sampleStudents);

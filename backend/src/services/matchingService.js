@@ -95,7 +95,7 @@ async function getTopMatchesForMentor(userId, n = 10) {
   if (!user) throw new Error(`User not found: ${userId}`);
 
   // Exclude self; you could also add friends to the exclusion list here
-  const candidates = await User.find({ _id: { $ne: userId, type: "mentee" } }).select('username majors minors hobbies');
+ const candidates = await User.find({ _id: { $ne: userId }, accountType: "mentee" }).select('username majors minors hobbies isPublic accountType');
 
   const scored = candidates.map((candidate) => {
     const result = calculateMatchScore(user, candidate);
@@ -106,6 +106,7 @@ async function getTopMatchesForMentor(userId, n = 10) {
         majors: candidate.majors,
         minors: candidate.minors,
         hobbies: candidate.hobbies,
+        isPublic: candidate.isPublic,
       },
       ...result,
     };
@@ -123,7 +124,7 @@ async function getTopMatchesForMentee(userId, n = 10) {
   if (!user) throw new Error(`User not found: ${userId}`);
 
   // Exclude self; you could also add friends to the exclusion list here
-  const candidates = await User.find({ _id: { $ne: userId, type: "mentor" } }).select('username majors minors hobbies');
+  const candidates = await User.find({ _id: { $ne: userId }, accountType: "mentor" }).select('username majors minors hobbies isPublic accountType');
 
   const scored = candidates.map((candidate) => {
     const result = calculateMatchScore(user, candidate);

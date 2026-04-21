@@ -19,7 +19,7 @@ function ProfileWindow() {
       try {
         const token = localStorage.getItem("token");
 
-        const res = await fetch("http://localhost:4000/api/users/me", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -35,7 +35,7 @@ function ProfileWindow() {
             majors: data.majors?.join(", ") || "",
             minors: data.minors?.join(", ") || "",
             hobbies: data.hobbies?.join(", ") || "",
-            isPublic: data.isPublic || false,
+            isPublic: data.isPublic === true,
           });
         } else {
           setMessage(data.error || "Failed to load profile");
@@ -60,7 +60,7 @@ function ProfileWindow() {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await fetch("http://localhost:4000/api/users/profile", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/profile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

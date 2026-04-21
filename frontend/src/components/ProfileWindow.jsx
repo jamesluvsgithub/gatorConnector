@@ -83,6 +83,15 @@ function ProfileWindow() {
       if (res.ok) {
         setMessage("Profile updated successfully");
         setEditing(false);
+        const storedUser = JSON.parse(localStorage.getItem("user")) || {};
+
+  localStorage.setItem(
+    "user",
+    JSON.stringify({
+      ...storedUser,
+      accountType: profile.accountType,
+    })
+  );
       } else {
         setMessage(data.error || "Failed to update profile");
       }

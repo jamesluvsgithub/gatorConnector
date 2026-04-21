@@ -62,14 +62,14 @@ function WelcomePage() {
   return (
     <div style={containerStyle}>
       <div style={cardStyle}>
-        <h1 style={titleStyle}>Welcome to Gator Connectors</h1>
+        <h1 style={titleStyle}>Welcome to GatorConnector</h1>
 
         <p style={textStyle}>
-          Gator Connectors is a Gainesville-focused platform designed to help UF and Santa Fe College students build meaningful connections with peers and faculty.
+          GatorConnector is a Gainesville-focused platform designed to help UF and Santa Fe College students build meaningful connections with peers and faculty.
 <br /><br />
 Starting college can feel overwhelming — whether you're new to campus, an international student, or simply unsure how to find people who share your interests. Our platform makes it easier by creating intentional connections based on your academic goals, interests, and background.
 <br /><br />
-Users can build profiles and connect through mentorship or peer networking. Whether you're looking for guidance, community, or collaboration, Gator Connectors helps you find people who truly align with you.
+Users can build profiles and connect through mentorship or peer networking. Whether you're looking for guidance, community, or collaboration, gatorConnector helps you find people who truly align with you.
         </p>
 
         <div style={buttonRowStyle}>

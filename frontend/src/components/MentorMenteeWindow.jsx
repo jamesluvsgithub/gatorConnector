@@ -21,7 +21,7 @@ function MentorMenteeWindow() {
         }
         const userObj = JSON.parse(userStr);
         const userId = userObj._id || userObj.id;
-        const response = await fetch(`http://localhost:4000/api/matching/top/${userId}`,
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/matching/top/${userId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

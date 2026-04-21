@@ -91,11 +91,11 @@ async function getMatchScoreByIds(userIdA, userIdB) {
 // Get top n matches for a user, not including themselves.
 
 async function getTopMatches(userId, n = 10) {
-  const user = await User.findById(userId).select('username majors minors hobbies');
+  const user = await User.findById(userId).select('username majors minors hobbies isPublic');
   if (!user) throw new Error(`User not found: ${userId}`);
 
   // Exclude self; you could also add friends to the exclusion list here
-  const candidates = await User.find({ _id: { $ne: userId } }).select('username majors minors hobbies');
+  const candidates = await User.find({ _id: { $ne: userId }, isPublic: { $eq: true } }).select('username majors minors hobbies isPublic');
 
   const scored = candidates.map((candidate) => {
     const result = calculateMatchScore(user, candidate);
@@ -106,6 +106,7 @@ async function getTopMatches(userId, n = 10) {
         majors: candidate.majors,
         minors: candidate.minors,
         hobbies: candidate.hobbies,
+        isPublic: candidate.isPublic,
       },
       ...result,
     };

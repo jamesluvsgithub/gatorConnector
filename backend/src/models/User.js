@@ -43,6 +43,14 @@ const UserSchema = new mongoose.Schema(
     // The following (up to the next comment) are used for the matching algorithm.
     // ---------------------------------------------------------------------------------------
 
+    accountType: {
+        type: String,
+        enum: {
+            values: ["mentor", "mentee"],
+            message: "Can only be either mentor or mentee"
+        }
+    },
+
     majors: {
         type: [String],
         required: true,

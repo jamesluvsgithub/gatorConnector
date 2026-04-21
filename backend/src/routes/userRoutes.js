@@ -21,7 +21,7 @@ router.get("/me", requireAuth.userVerification, async (req, res) => {
 
 router.put("/profile", requireAuth.userVerification, async (req, res) => {
     try {
-        const { bio, majors, minors, hobbies, isPublic } = req.body;
+        const { bio, majors, minors, hobbies, isPublic, accountType } = req.body;
 
         const updatedUser = await User.findByIdAndUpdate(
             req.user.id,
@@ -30,10 +30,11 @@ router.put("/profile", requireAuth.userVerification, async (req, res) => {
                 majors,
                 minors,
                 hobbies,
-                isPublic
+                isPublic,
+                accountType
             },
             { new: true, runValidators: true }
-        ).select("-password");
+            ).select("-password");
 
         if (!updatedUser) {
             return res.status(404).json({ error: "User not found" });

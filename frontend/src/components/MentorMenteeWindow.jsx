@@ -22,8 +22,10 @@ function MentorMenteeWindow() {
 
         const userObj = JSON.parse(userStr);
         const userId = userObj._id || userObj.id;
-        const userType = userObj.type; // IMPORTANT: mentor or mentee
-
+        const userType = userObj.accountType; // IMPORTANT: mentor or mentee
+console.log("userObj:", userObj);
+console.log("userId:", userId);
+console.log("userType:", userType);
         // 🔥 choose correct endpoint based on user type
         const endpoint =
           userType === "mentor"

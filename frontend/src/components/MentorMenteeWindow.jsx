@@ -1,6 +1,9 @@
+
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function MentorMenteeWindow() {
+  const navigate = useNavigate();
   const [people, setPeople] = useState([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
@@ -9,61 +12,49 @@ function MentorMenteeWindow() {
     const getMatches = async () => {
       setLoading(true);
       setMessage("");
-
       try {
         const userStr = localStorage.getItem("user");
         const token = localStorage.getItem("token");
-
         if (!userStr || !token) {
           setMessage("Not logged in.");
           setLoading(false);
           return;
         }
-
         const userObj = JSON.parse(userStr);
         const userId = userObj._id || userObj.id;
-        const userType = userObj.accountType; // IMPORTANT: mentor or mentee
-console.log("userObj:", userObj);
-console.log("userId:", userId);
-console.log("userType:", userType);
-        // 🔥 choose correct endpoint based on user type
-        const endpoint =
-          userType === "mentor"
-            ? `/api/matching/top/mentor/${userId}`
-            : `/api/matching/top/mentee/${userId}`;
-
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}${endpoint}`,
+        const accountType = userObj.accountType;
+        const endpoint = accountType === "mentor"
+          ? `http://localhost:4000/api/matching/top/mentor/${userId}`
+          : `http://localhost:4000/api/matching/top/mentee/${userId}`;
+        const response = await fetch(endpoint,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-
         if (!response.ok) {
           throw new Error("Could not get matches");
         }
-
         const data = await response.json();
-
-        if (Array.isArray(data) && data.length > 0) {
-          setPeople(data);
+        const matches = Array.isArray(data) ? data : data.matches;
+        if (Array.isArray(matches) && matches.length > 0) {
+          setPeople(matches);
         } else {
           setMessage("No matches found.");
           setPeople([]);
         }
-      } catch (err) {
-        console.error(err);
+      } catch (error) {
         setMessage("Error loading matches.");
         setPeople([]);
       } finally {
         setLoading(false);
       }
     };
-
     getMatches();
   }, []);
+
+
 
   return (
     <div style={styles.page}>
@@ -84,37 +75,27 @@ console.log("userType:", userType);
             people.map((match) => (
               <div key={match.candidate.id} style={styles.card}>
                 <div style={styles.cardTop}>
-                  <h2 style={styles.name}>
-                    {match.candidate.username}
-                  </h2>
-                  <span style={styles.scoreTag}>
-                    {match.score}% match
-                  </span>
+                  <h2 style={styles.name}>{match.candidate.username}</h2>
+                  <span style={styles.scoreTag}>{match.score}% match</span>
                 </div>
 
                 <p style={styles.label}>Majors</p>
-                <p style={styles.info}>
-                  {match.candidate.majors?.length
-                    ? match.candidate.majors.join(", ")
-                    : "Not provided"}
-                </p>
+                <p style={styles.info}>{match.candidate.majors?.length > 0 ? match.candidate.majors.join(", ") : "Not provided"}</p>
 
                 <p style={styles.label}>Minors</p>
-                <p style={styles.info}>
-                  {match.candidate.minors?.length
-                    ? match.candidate.minors.join(", ")
-                    : "Not provided"}
-                </p>
+                <p style={styles.info}>{match.candidate.minors?.length > 0 ? match.candidate.minors.join(", ") : "Not provided"}</p>
 
                 <p style={styles.label}>Hobbies</p>
-                <p style={styles.info}>
-                  {match.candidate.hobbies?.length
-                    ? match.candidate.hobbies.join(", ")
-                    : "Not provided"}
-                </p>
+                <p style={styles.info}>{match.candidate.hobbies?.length > 0 ? match.candidate.hobbies.join(", ") : "Not provided"}</p>
 
-                <button style={styles.button}>
-                  View Profile
+                <button
+                  style={styles.button}
+                  onClick={() => {
+                    const name = encodeURIComponent(match.candidate.username || "User");
+                    navigate(`/chat?userId=${match.candidate.id}&username=${name}`);
+                  }}
+                >
+                  Chat
                 </button>
               </div>
             ))}
@@ -157,9 +138,11 @@ const styles = {
   listBox: {
     maxHeight: "500px",
     overflowY: "auto",
+    scrollBehavior: "smooth",
     display: "flex",
     flexDirection: "column",
     gap: "14px",
+    paddingRight: "6px",
   },
   card: {
     border: "1px solid #d1d5db",
@@ -170,10 +153,18 @@ const styles = {
   cardTop: {
     display: "flex",
     justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "10px",
   },
   name: {
     margin: 0,
     fontSize: "20px",
+  },
+  roleTag: {
+    padding: "4px 10px",
+    borderRadius: "999px",
+    fontSize: "12px",
+    fontWeight: "600",
   },
   scoreTag: {
     padding: "4px 10px",
@@ -192,6 +183,7 @@ const styles = {
   info: {
     margin: 0,
     fontSize: "14px",
+    color: "#111827",
   },
   button: {
     marginTop: "12px",
@@ -201,10 +193,13 @@ const styles = {
     backgroundColor: "#2563eb",
     color: "white",
     cursor: "pointer",
+    fontSize: "14px",
   },
   messageText: {
     textAlign: "center",
     color: "#6b7280",
+    fontSize: "14px",
+    marginBottom: "6px",
   },
 };
 
